@@ -7,6 +7,7 @@
 # Wcoss2:
 source $HOME/env3.10/bin/activate
 module load PrgEnv-intel netcdf
+module load proj geos imagemagick
 
 # Hera:
 #source $HOME/env3.7/bin/activate

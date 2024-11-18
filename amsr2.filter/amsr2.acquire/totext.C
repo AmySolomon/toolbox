@@ -113,7 +113,8 @@ void scanner(FILE *fin, FILE *fout, metricgrid<unsigned char> &mgrid, grid2<amsr
         lrgrid[loc] = lr;
       }
       // Header:
-      fprintf(fout, "%f %f %3d %3d %4.2f ",ll.lat, ll.lon, iloc.i, iloc.j, s[0].alfr );
+      //fprintf(fout, "%f %f %3d %3d %4.2f ",ll.lat, ll.lon, iloc.i, iloc.j, s[0].alfr );
+      fprintf(fout, "%f %f  ",ll.lat, ll.lon);
       // tb
       for (tindex = 0; tindex < nobs; tindex++) {
 	fprintf(fout, "%6.2f ",s[tindex].tmbr);

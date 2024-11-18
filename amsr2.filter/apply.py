@@ -44,97 +44,29 @@ class tbfilt:
       return True
     return False
 
-#  def read(self, fin):
-#
-#  def better(self, other):
-#  
-#  def nondom(self, other):
-
-def apply_filters(filts, matchups, show = True):
+# matchups = a list of matchups
+# filts = a list of filts
+def apply_filters(filts, matchups, show = False, fout=sys.stdout ):
   applied = int(0)
   nfilt = len(filts)
   for k in range(int(0), len(matchups)):
-    to_filter = False
+    pass_filter = False
     for ifilt in range(0, nfilt): 
       if (filts[ifilt].apply(matchups[k])):
-        to_filter = True
-        if (show):
-          print("filt ",ifilt, "match k",k, matchups[k].show(), flush=True )
-    if(to_filter):
+        pass_filter = True
+    if(pass_filter):
       applied += 1
-<<<<<<< HEAD
+      if (show):
+        #print("filt ",ifilt, "match k",k, matchups[k].show(), flush=True )
+        matchups[k].show(fout)
+
   #debug: print("tot applied: ",applied,flush=True)
   return applied
-=======
-  print("tot applied: ",applied,flush=True)
->>>>>>> develop
         
 
 
-#tchn, tb_crit, bayes_out, p(tb> tbcrit), pbogus, p(tb > tbcrit | bogus)
-#
-#best are:
 #  bayes_out highest, frequency highest P(bogus | tb_k > tbcrit) -- almost certainly is_bogus
 #  bayes_out lowest, frequency highest -- almost certainly is_not_bogus
-fin = open(sys.argv[1], "r")
-tfilters = []
-tmp = tbfilt(0,0,0,0)
-
-# Read in all infos
-k = 0
-for line in fin:
-  words = line.split()
-  tmp = tbfilt(float(words[2]), float(words[3]), float(words[4]), float(words[5]) )
-  tfilters.append(tmp)
-  tfilters[k] = copy.deepcopy(tmp)
-  k += 1
-
-<<<<<<< HEAD
-=======
-#debug: print("k, len",k, len(tfilters), flush=True)
-#debug: tfilters[0].show()
-#debug: tfilters[int(k/2)].show()
-#debug: 
-#debug: exit(0)
-
->>>>>>> develop
-# go through filters
-for tchan in range(0, x.ntb):
-  #debug: print("tchan = ",tchan, flush=True)
-  is_bogus = tbfilt(tchan, 0, 0.5, 0.)
-  is_not_bogus = tbfilt(tchan, 1, 0.5, 0.)
-  best_bogus = is_bogus
-  best_not_bogus = is_not_bogus
-  nondom_bogus = []
-  nondom_not_bogus = []
-  nondom_bogus.append(is_bogus)
-  nondom_not_bogus.append(is_not_bogus)
-
-  #Find the best filters (is, is_not)
-  for k in range(0, len(tfilters)):
-    if (tfilters[k].chan == tchan):
-      #debug: tfilters[k].show()
-      if (tfilters[k].quality > best_bogus.quality and tfilters[k].frequency > best_bogus.frequency):
-        best_bogus = tfilters[k]
-        #debug: best_bogus.show()
-      if (tfilters[k].quality < best_not_bogus.quality and tfilters[k].frequency > best_not_bogus.frequency):
-        best_not_bogus = tfilters[k]
-        #debug: best_not_bogus.show()
-        
-  #Find filters which are not dominated by 
-  for k in range(0, len(tfilters)):
-    if (tfilters[k].chan == tchan):
-      if (tfilters[k].quality >= best_bogus.quality or tfilters[k].frequency >= best_bogus.frequency):
-        nondom_bogus.append(tfilters[k])
-      if (tfilters[k].quality <= best_not_bogus.quality or tfilters[k].frequency >= best_not_bogus.frequency):
-        nondom_not_bogus.append(tfilters[k])
-
-
-  best_bogus.show()
-  best_not_bogus.show()
-  print("tchan",tchan, len(nondom_bogus), len(nondom_not_bogus), "\n", flush=True)
-
-
 
 #tbfilt = tchan, tcrit, null, null -- to apply filter only need tchan, tcrit)
 # Filters that should indicate _not ice_
@@ -175,6 +107,7 @@ applied = int(0)
 
 k = int(0)
 for line in f11:
+  #debug: print("line  ",k,line, flush=True)
   tmp.lr_read(line)
   to_filter = False
   for ifilt in range(0,nfilt):
@@ -192,6 +125,7 @@ print("f11 tot applied: ",applied,flush=True)
 
 k = int(0)
 for line in f00:
+  #debug: print("line  ",k,line, flush=True)
   tmp.lr_read(line)
   to_filter = False
   for ifilt in range(0,nfilt):
@@ -209,6 +143,7 @@ print("f00 tot applied: ",applied,flush=True)
 
 k = int(0)
 for line in f10:
+  #debug: print("line  ",k,line, flush=True)
   tmp.lr_read(line)
   to_filter = False
   for ifilt in range(0,nfilt):
@@ -226,6 +161,7 @@ print("f10 tot applied: ",applied,flush=True)
 
 k = int(0)
 for line in f01:
+  #debug: print("line  ",k,line, flush=True)
   tmp.lr_read(line)
   to_filter = False
   for ifilt in range(0,nfilt):
@@ -265,38 +201,32 @@ notbogus.append(tbfilt(5, 244, 0.010314302987781668, 0.267519375232369))
 #notbogus.append(tbfilt(11, 246, 0.05070844552071158, 0.13341185791775803)
 
 nfilt=len(notbogus)
-show = False
-<<<<<<< HEAD
 print("len notbogus filters: ",len(notbogus), "\n")
 
+show = True
+tag=sys.argv[1]
+f11out = open("f11out."+tag,"w")
+f10out = open("f10out."+tag,"w")
+f01out = open("f01out."+tag,"w")
+f00out = open("f00out."+tag,"w")
+
+n = apply_filters(notbogus, match00, show, fout = f00out)
 print("tot match 00 ",len(match00), end="" )
-n = apply_filters(notbogus, match00, show)
 print(" filter applied: ",n, float(n)/float(len(match00)) )
 
+n = apply_filters(notbogus, match01, show, fout = f01out)
 print("tot match 01 ",len(match01), end="" )
-n = apply_filters(notbogus, match01, show)
 print(" filter applied: ",n, float(n)/float(len(match01)) )
 
+n = apply_filters(notbogus, match11, show, fout = f11out )
+print("tot match 11 ",len(match11), end="" )
+print(" filter applied: ",n, float(n)/float(len(match11)) )
+
+n = apply_filters(notbogus, match10, show, fout = f10out )
 print("tot match 10 ",len(match10), end=""  )
-n = apply_filters(notbogus, match10, show)
 print(" filter applied: ",n, float(n)/float(len(match10)) )
 
-print("tot match 11 ",len(match11), end="" )
-n = apply_filters(notbogus, match11, show)
-print(" filter applied: ",n, float(n)/float(len(match11)) )
-=======
-print("len notbogus: ",len(notbogus))
-
-print("tot match 00 ",len(match00) )
-apply_filters(notbogus, match00, show)
-
-print("tot match 01 ",len(match01) )
-apply_filters(notbogus, match01, show)
-
-print("tot match 10 ",len(match10)  )
-apply_filters(notbogus, match10, show)
-
-print("tot match 11 ",len(match11) )
-apply_filters(notbogus, match11, show)
->>>>>>> develop
-
+f11out.close()
+f10out.close()
+f01out.close()
+f00out.close()

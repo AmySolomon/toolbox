@@ -21,13 +21,14 @@ from tools import *
 # mmablib
 from utility import *
 
-#start = datetime.datetime(2023,1,2)
-#end   = datetime.datetime(2023,1,2)
 if (len(sys.argv) == 2):
     tmp = parse_8digits(int(sys.argv[1]) )
     start = tmp
     end   = tmp
     del tmp
+elif (len(sys.argv) == 3):
+    start = parse_8digits(int(sys.argv[1]) )
+    end   = parse_8digits(int(sys.argv[2]) )
 else:
     start = datetime.datetime(2024,1,3)
     end   = datetime.datetime(2024,2,29)
@@ -171,7 +172,8 @@ while (tag <= end):
   proj4 = "+proj=stere +lat_0=90 +lat_ts=60 +lon_0=-80 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6356257 +units=m +no_defs" 
   
   ims_base='/u/robert.grumbine/noscrub/imstmp/'
-  fname=ims_base+yy+'/ims'+tagj+'_4km_v1.3.nc'
+  #subdirs: fname=ims_base+yy+'/ims'+tagj+'_4km_v1.3.nc'
+  fname=ims_base+'/ims'+tagj+'_4km_v1.3.nc'
   
   try:
     ims = nc.Dataset(fname, 'r', format='NETCDF4')

@@ -7,7 +7,7 @@ LIBS = ${W3NCO_LIBd} ${BUFR_LIBd} ${BACIO_LIB4}
 
 OBJS = scan.o
 
-all : seaice_l1b_scan seaice_totext
+all : seaice_totext
 
 seaice_l1b_scan :  $(OBJS)
 	$(CPPLD) $(CPPLDFLAGS) $(OBJS) -o $(@) $(MMAB_LIBF4) 

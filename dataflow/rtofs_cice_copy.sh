@@ -23,12 +23,12 @@ export MODULEPATH_ROOT=/usr/share/modulefiles
 module load prod_envir
 echo zzz done trying to load prod_envir
 
-ops=$COMROOT/rtofs/v2.3/
+ops=$COMROOT/rtofs/v2.4/
 echo zzz ops = $ops
 
 cd $ops
 base=$HOME/noscrub/model_intercompare/rtofs_cice/
-tag=20230301
+tag=20240920
 end=`date +"%Y%m%d"`
 end=`expr $end - 1`
 end=`$HOME/bin/dtgfix3 $end`
@@ -36,7 +36,11 @@ end=`$HOME/bin/dtgfix3 $end`
 while [ $tag -lt $end ]
 do
   if [ ! -d ${base}/rtofs.$tag ] ; then
-    find rtofs.$tag -name '*cice_inst' | cpio -pamdv $base
+    if [ -d rtofs.$tag ] ; then
+      find rtofs.$tag -name '*cice_inst*' | cpio -pamdv $base
+    else
+      echo no rtofs for $tag
+    fi
   else
     echo already have $tag
   fi
