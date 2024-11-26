@@ -31,11 +31,12 @@ pseudo_length = 5000
 
 #dname = tag.strftime("%Y%m%d")
 fname = "REB2."+tag.strftime("%Y-%m-%d") + ".nc"
+#fname = "REB2.2024-11-14.nc"
 if (not os.path.exists(base+'/'+"/"+fname) ):
   print("could not open ",base+'/'+"/"+fname, flush=True)
   exit(1)
 
-fin = Dataset(base+'/'+dname+"/"+fname, "r")
+fin = Dataset(base+'/'+"/"+fname, "r")
 nx = len(fin.dimensions["ni"])
 ny = len(fin.dimensions["nj"])
 lons = fin.variables["TLON"][:,:]
